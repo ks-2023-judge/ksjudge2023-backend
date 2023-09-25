@@ -24,6 +24,11 @@ const resolvers = {
     const result = await studentRepo.getStudentByStudNo(req.session.studNo);
     return result[0][0];
   },
+
+  students: async (_, req) => {
+    const result = await studentRepo.getStudents();
+    return result[0];
+  }
 };
 
 module.exports = resolvers;
