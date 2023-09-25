@@ -11,5 +11,5 @@ class StudentRepository {
     return Query(sql);
   }
 }
-
-module.exports = StudentRepository;
+const studentRepo = new StudentRepository();
+module.exports = studentRepo;
