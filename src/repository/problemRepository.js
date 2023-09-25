@@ -10,6 +10,11 @@ class ProblemRepository {
     const sql = MyBatisMapper.getStatement(this.namespace, 'getProblemsByStudId', { studId });
     return Query(sql);
   }
+
+  async getSubmitByStudId(studId) {
+    const sql = MyBatisMapper.getStatement(this.namespace, 'getSubmitByStudId', { studId });
+    return Query(sql);
+  }
 }
 
 const problemRepo = new ProblemRepository();

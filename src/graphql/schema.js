@@ -51,7 +51,7 @@ const schema = buildSchema(`
     students: [Student]!
     notices: [Notice!]!
     problems: [Problem]
-    submits: [submit!]!
+    submits: [submit]
   }
 
   type Mutation {
