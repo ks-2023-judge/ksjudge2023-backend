@@ -4,11 +4,11 @@ const app = express();
 const port = process.argv[2] || 8080;
 
 const StudentRepository = require('./repository/StudentRepository');
-const pool = require('./config/database');
-const studentRepository = new StudentRepository(pool);
+const studentRepo = new StudentRepository();
 
 app.use('/', (req, res) => {
-  res.send(studentRepository.getStudentByStudNo("2019575051"));
+  studentRepo.getStudentByStudNo('2019575051')
+  .then(res => console.log(res));[]
 });
 
 app.listen(port, () => {
