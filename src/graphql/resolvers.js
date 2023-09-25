@@ -1,4 +1,6 @@
 const studentRepo = require('../repository/StudentRepository');
+const noticeRepo = require('../repository/NoticeRepository');
+const problemRepo = require('../repository/ProblemRepository');
 const sha256 = require('js-sha256');
 
 const resolvers = {
@@ -27,6 +29,18 @@ const resolvers = {
 
   students: async (_, req) => {
     const result = await studentRepo.getStudents();
+    return result[0];
+  },
+
+  notices: async (_, req) => {
+    const result = await noticeRepo.getNotices();
+    return result[0];
+  },
+
+  problems: async (_, req) => {
+    const studId = req.session.studId;
+    if(studId == null) throw new Error('Unauthorized');
+    const result = await problemRepo.getProblemsByStudId(studId);
     return result[0];
   }
 };

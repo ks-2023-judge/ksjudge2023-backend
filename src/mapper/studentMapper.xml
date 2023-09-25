@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="StudentRepository"> <!-- 네임스페이스를 'StudentRepository'로 변경 -->
+<mapper namespace="StudentRepository">
   <select id="getStudentByStudNo" parameterType="string">
     SELECT *
     FROM Student

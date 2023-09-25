@@ -26,9 +26,11 @@ const schema = buildSchema(`
   }
 
   type Problem {
-    no: Int!
-    title: String
-    body: String
+    title: String!
+    lang: String
+    result: String
+    runtime: Int
+    memory: Int
   }
 
   type submit {
@@ -48,7 +50,7 @@ const schema = buildSchema(`
     student: Student!
     students: [Student]!
     notices: [Notice!]!
-    problems: [Problem!]!
+    problems: [Problem]
     submits: [submit!]!
   }
 

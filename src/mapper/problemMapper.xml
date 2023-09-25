@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ProblemRepository"> 
+  <select id="getProblemsByStudId" parameterType="int">
+    select title, s.lang, s.result, s.runtime, s.memory
+    from Problem left outer join
+    (select *
+    from Submit
+    where (stud_id, problemNo, submit_at) in
+    (select stud_id, problemNo, max(submit_at) latest_at
+    from Submit
+    where stud_id = #{studId}
+    group by problemNo)) s
+    on no = s.problemNo
+  </select>
+</mapper>
