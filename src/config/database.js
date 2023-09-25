@@ -9,5 +9,13 @@ const dbConfig = {
 };
 
 const pool = mysql.createPool(dbConfig);
+const Query = async (sql, callback) => {
+  let conn = await pool.getConnection(async (err, connection) => (err, connection));
+  
+  const query = await conn.query(sql);
+  conn.release();
 
-module.exports = pool;
+  return query;
+}
+
+module.exports = Query;

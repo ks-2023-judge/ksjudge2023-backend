@@ -5,9 +5,6 @@ mybatisMapper.createMapper([
   path.resolve(__dirname, '../mapper/studentMapper.xml'),
 ]);
 
-
-const Query = (namespace, sqlID, params) => {
-  return mybatisMapper.getStatement(namespace, sqlID, params, { language: 'sql', indent: '  '});
+module.exports.init = () => {
+  // mybatis init
 }
-
-module.exports = Query;

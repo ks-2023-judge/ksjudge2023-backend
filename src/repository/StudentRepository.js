@@ -1,5 +1,5 @@
 const MyBatisMapper = require('mybatis-mapper');
-const Query = require('../config/mybatis');
+const Query = require('../config/database');
 
 class StudentRepository {
   constructor() {
