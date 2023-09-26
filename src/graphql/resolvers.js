@@ -1,6 +1,6 @@
-const studentRepo = require('../repository/StudentRepository');
-const noticeRepo = require('../repository/NoticeRepository');
-const problemRepo = require('../repository/ProblemRepository');
+const studentRepo = require('../repository/studentRepository');
+const noticeRepo = require('../repository/noticeRepository');
+const problemRepo = require('../repository/problemRepository');
 const sha256 = require('js-sha256');
 
 const resolvers = {
