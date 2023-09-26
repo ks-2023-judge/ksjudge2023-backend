@@ -13,9 +13,16 @@
     group by problemNo)) s
     on no = s.problemNo
   </select>
+
   <select id="getSubmitByStudId" parameterType="int">
     select *
     from Submit
     where stud_id = #{studId}
+  </select>
+
+  <select id="getProblemByNo" parameterType="int">
+  select *
+  from Problem 
+  where no = #{problemNo}
   </select>
 </mapper>

@@ -13,6 +13,7 @@ const schema = buildSchema(`
     team: String
     score: Int
     grade: Int
+    rank: Int
   }
 
   type LoginResponse {
@@ -51,8 +52,10 @@ const schema = buildSchema(`
     students: [Student]!
     notices: [Notice!]!
     problems: [Problem]
+    problem(no: Int!): Problem
     submits: [submit]
     info: Student!
+    rank: [Student]
   }
 
   type Mutation {
