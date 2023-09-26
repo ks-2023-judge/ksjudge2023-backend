@@ -23,4 +23,10 @@
     from Student s, user_problem_stat ups 
     where s.id = ups.stud_id
   </select>
+
+  <update id="exit" parameterType="int" resultType="int">
+    update Student
+    set state = 2
+    where id = #{studId}
+  </update>
 </mapper>

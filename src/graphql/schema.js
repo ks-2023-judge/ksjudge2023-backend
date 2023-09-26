@@ -16,6 +16,7 @@ const schema = buildSchema(`
     score: Int
     grade: Int
     rank: Int
+    tries: JSON
   }
 
   type LoginResponse {
@@ -41,6 +42,7 @@ const schema = buildSchema(`
     result: String
     runtime: Int
     memory: Int
+    submit_at: String
   }
 
   type submit {
@@ -77,6 +79,7 @@ const schema = buildSchema(`
     problems: [Problem]
     problem(no: Int!): Problem
     problemsWithSubmit: [ProblemWithSubmit]
+    problemsWithSubmitByStudId(studId: Int!): [ProblemWithSubmit]
     submits: [submit]
     submit: [submit]
     info: Student!
@@ -97,6 +100,8 @@ const schema = buildSchema(`
       extra: String
       result: String
     ): submit!
+
+    exit: Boolean!
   }
 `);
 

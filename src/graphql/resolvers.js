@@ -15,6 +15,8 @@ const resolvers = {
       return { success: false, message: 'Not Found!' };
     } 
 
+    if(student.state != 0) return { success: false, message: '로그인 불가' };
+
     if(student.password !== sha256(password)) {
       return { success: false, message: 'Invalid Credentials' };
     }
@@ -44,6 +46,12 @@ const resolvers = {
     const studId = req.session.studId;
     if(studId == null) throw new Error('Unauthorized');
     const result = await problemRepo.getProblemsByStudId(studId);
+    return result[0];
+  },
+
+  problemsWithSubmitByStudId: async (args, req) => {
+    const result = await problemRepo.getProblemsByStudId(args.studId);
+    console.log(result[0]);
     return result[0];
   },
 
@@ -81,12 +89,9 @@ const resolvers = {
     const result = await studentRepo.getStudents();
     const students = result[0];
     const rank = students.sort((a, b) => (b.k == a.k) ? (a.score - b.score) : b.k - a.k).map((student, i) => ({...student, rank: i + 1}));
-    return rank;
-  },
 
-  scoreboard: async (_, req) => {
-    const result = await studentRepo.getScoreBoard();
-    const tries = result[0];
+    const result2 = await studentRepo.getScoreBoard();
+    const tries = result2[0];
     const scoreboard = new Map();
 
     tries.forEach(({ studNo, problemNo, try_cnt }) => {
@@ -96,8 +101,18 @@ const resolvers = {
       scoreboard.get(studNo)[problemNo] = try_cnt;
     }); 
     const s = Array.from(scoreboard.entries()).map(([ studNo, tries ]) => ({ studNo, tries }));
-    console.log(s);
-    return s;
+    s.forEach(({ studNo, tries }) => {
+      rank.find(student => student.studNo == studNo).tries = tries;
+    });
+    return rank;
+  },
+
+  exit: async (_, req) => {
+    const { studId, studNo } = req.session;
+    if(!studId || !studNo) throw new Error('Unauthorized');
+    const result = await studentRepo.exit(studId);
+    const updated = result[0].changedRows;
+    return (updated > 0) ? true : false;
   }
 };
 

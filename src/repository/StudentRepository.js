@@ -25,6 +25,11 @@ class StudentRepository {
     const sql = MyBatisMapper.getStatement(this.namespace, 'getScoreBoard');
     return Query(sql);
   }
+
+  async exit(studId) {
+    const sql = MyBatisMapper.getStatement(this.namespace, 'exit', { studId });
+    return Query(sql);
+  }
 }
 const studentRepo = new StudentRepository();
 module.exports = studentRepo;
