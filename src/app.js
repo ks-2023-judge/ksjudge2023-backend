@@ -12,7 +12,11 @@ mybatis.init();
 
 const port = process.argv[2] || 8080;
 
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:4000"],
+  credentials: true,
+}));
+
 app.use(session({
   secret: "secret",
   resave: false,

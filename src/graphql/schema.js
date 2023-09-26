@@ -1,6 +1,8 @@
 const { buildSchema } = require('graphql');
 
 const schema = buildSchema(`
+  scalar JSON
+  
   type Student {
     id: Int!
     studNo: String!
@@ -29,6 +31,12 @@ const schema = buildSchema(`
   type Problem {
     no: Int!
     title: String!
+    body: String!
+  }
+
+  type ProblemWithSubmit {
+    no: Int!
+    title: String
     lang: String
     result: String
     runtime: Int
@@ -45,6 +53,20 @@ const schema = buildSchema(`
     state: String
     extra: String
     result: String
+    code_size: Int
+    submit_at: String
+    runtime: Int
+    memory: Int
+  }
+
+  type Scoreboard {
+    studNo: String
+    tries: JSON
+  }
+
+  type Try {
+    problemNo: Int
+    try_cnt: Int
   }
 
   type Query {
@@ -54,10 +76,12 @@ const schema = buildSchema(`
     notices: [Notice!]!
     problems: [Problem]
     problem(no: Int!): Problem
+    problemsWithSubmit: [ProblemWithSubmit]
     submits: [submit]
     submit: [submit]
     info: Student!
     rank: [Student]
+    scoreboard: [Scoreboard]
   }
 
   type Mutation {

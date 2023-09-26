@@ -17,4 +17,10 @@
     SELECT *
     FROM Student
   </select>
+
+  <select id="getScoreBoard">
+    select studNo, name, problem_no problemNo, try try_cnt
+    from Student s, user_problem_stat ups 
+    where s.id = ups.stud_id
+  </select>
 </mapper>

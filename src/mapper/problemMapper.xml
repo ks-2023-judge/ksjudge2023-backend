@@ -27,7 +27,13 @@
 
   <select id="getProblemByNo" parameterType="int">
   select *
-  from Problem 
-  where no = #{problemNo}
+    from Problem 
+    where no = #{problemNo}
+  </select>
+
+  <select id="getAllProblems">
+    select studNo, name, problem_no, try
+    from Student s, user_problem_stat ups 
+    where s.id = ups.stud_id;
   </select>
 </mapper>

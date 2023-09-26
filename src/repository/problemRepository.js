@@ -25,6 +25,11 @@ class ProblemRepository {
     const sql = MyBatisMapper.getStatement(this.namespace, 'getAllSubmits');
     return Query(sql);
   }
+
+  async getAllProblems() {
+    const sql = MyBatisMapper.getStatement(this.namespace, 'getAllProblems');
+    return Query(sql);
+  }
 }
 
 const problemRepo = new ProblemRepository();

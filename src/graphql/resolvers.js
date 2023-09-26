@@ -2,8 +2,11 @@ const studentRepo = require('../repository/studentRepository');
 const noticeRepo = require('../repository/noticeRepository');
 const problemRepo = require('../repository/problemRepository');
 const sha256 = require('js-sha256');
+const { default: GraphQLJSON } = require('graphql-type-json');
 
 const resolvers = {
+  JSON: GraphQLJSON,
+
   login: async ({ studNo, password }, req) => { 
     const result = await studentRepo.getStudentByStudNo(studNo);
     const student = result[0][0];
@@ -37,7 +40,7 @@ const resolvers = {
     return result[0];
   },
 
-  problems: async (_, req) => {
+  problemsWithSubmit: async (_, req) => {
     const studId = req.session.studId;
     if(studId == null) throw new Error('Unauthorized');
     const result = await problemRepo.getProblemsByStudId(studId);
@@ -48,6 +51,11 @@ const resolvers = {
     const result = await problemRepo.getProblemByNo(args.no);
     const problem = result[0][0];
     return problem;
+  },
+
+  problems: async (_, req) => {
+    const result = await problemRepo.getAllProblems();
+    return result[0];
   },
 
   submit: async (_, req) => {
@@ -74,6 +82,22 @@ const resolvers = {
     const students = result[0];
     const rank = students.sort((a, b) => (b.k == a.k) ? (a.score - b.score) : b.k - a.k).map((student, i) => ({...student, rank: i + 1}));
     return rank;
+  },
+
+  scoreboard: async (_, req) => {
+    const result = await studentRepo.getScoreBoard();
+    const tries = result[0];
+    const scoreboard = new Map();
+
+    tries.forEach(({ studNo, problemNo, try_cnt }) => {
+      if(!scoreboard.has(studNo)) {
+        scoreboard.set(studNo, {});
+      }
+      scoreboard.get(studNo)[problemNo] = try_cnt;
+    }); 
+    const s = Array.from(scoreboard.entries()).map(([ studNo, tries ]) => ({ studNo, tries }));
+    console.log(s);
+    return s;
   }
 };
 
