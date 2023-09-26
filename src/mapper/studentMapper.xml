@@ -6,6 +6,11 @@
     FROM Student
     WHERE studNo = #{studNo}
   </select>
+  <select id="getStudentByStudId" parameterType="int">
+  SELECT *
+  FROM Student
+  WHERE id = #{studId}
+  </select>
   <select id="getStudents">
     SELECT *
     FROM Student

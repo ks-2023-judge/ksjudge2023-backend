@@ -47,11 +47,12 @@ const schema = buildSchema(`
 
   type Query {
     login(studNo: String!, password: String!): LoginResponse!
-    student: Student!
+    student(studNo: String!): Student!
     students: [Student]!
     notices: [Notice!]!
     problems: [Problem]
     submits: [submit]
+    info: Student!
   }
 
   type Mutation {

@@ -22,8 +22,8 @@ const resolvers = {
     return { success: true, message: '로그인 성공' };
   },
 
-  student: async (_, req) => {
-    const result = await studentRepo.getStudentByStudNo(req.session.studNo);
+  student: async (args, req) => {
+    const result = await studentRepo.getStudentByStudNo(args.studNo);
     return result[0][0];
   },
 
@@ -49,6 +49,13 @@ const resolvers = {
     if(studId == null) throw new Error('Unauthorized');
     const result = await problemRepo.getSubmitByStudId(studId);
     return result[0];
+  },
+
+  info: async (_, req) => {
+    const { studId, studNo } = req.session;
+    if(!studId || !studNo) throw new Error('Unauthorized');
+    const result = await studentRepo.getStudentByStudId(studId);
+    return result[0][0]; 
   }
 };
 
