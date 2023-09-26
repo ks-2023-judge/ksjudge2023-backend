@@ -50,10 +50,15 @@ const resolvers = {
     return problem;
   },
 
-  submits: async (_, req) => {
+  submit: async (_, req) => {
     const studId = req.session.studId;
     if(studId == null) throw new Error('Unauthorized');
     const result = await problemRepo.getSubmitByStudId(studId);
+    return result[0];
+  },
+
+  submits: async (_, req) => {
+    const result = await problemRepo.getAllSubmits();
     return result[0];
   },
 

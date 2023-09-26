@@ -27,6 +27,7 @@ const schema = buildSchema(`
   }
 
   type Problem {
+    no: Int!
     title: String!
     lang: String
     result: String
@@ -54,6 +55,7 @@ const schema = buildSchema(`
     problems: [Problem]
     problem(no: Int!): Problem
     submits: [submit]
+    submit: [submit]
     info: Student!
     rank: [Student]
   }
