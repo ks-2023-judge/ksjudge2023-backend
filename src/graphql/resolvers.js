@@ -44,6 +44,12 @@ const resolvers = {
     return result[0];
   },
 
+  problem: async (args, req) => {
+    const result = await problemRepo.getProblemByNo(args.no);
+    const problem = result[0][0];
+    return problem;
+  },
+
   submits: async (_, req) => {
     const studId = req.session.studId;
     if(studId == null) throw new Error('Unauthorized');
@@ -56,6 +62,13 @@ const resolvers = {
     if(!studId || !studNo) throw new Error('Unauthorized');
     const result = await studentRepo.getStudentByStudId(studId);
     return result[0][0]; 
+  },
+
+  rank: async (_, req) => {
+    const result = await studentRepo.getStudents();
+    const students = result[0];
+    const rank = students.sort((a, b) => (b.k == a.k) ? (a.score - b.score) : b.k - a.k).map((student, i) => ({...student, rank: i + 1}));
+    return rank;
   }
 };
 
