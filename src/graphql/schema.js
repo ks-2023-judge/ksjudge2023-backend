@@ -43,6 +43,7 @@ const schema = buildSchema(`
     runtime: Int
     memory: Int
     submit_at: String
+    score: Int
   }
 
   type submit {
@@ -59,6 +60,7 @@ const schema = buildSchema(`
     submit_at: String
     runtime: Int
     memory: Int
+    score: Int
   }
 
   type Scoreboard {
