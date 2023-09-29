@@ -94,11 +94,11 @@ const resolvers = {
     const tries = result2[0];
     const scoreboard = new Map();
 
-    tries.forEach(({ studNo, problemNo, try_cnt }) => {
+    tries.forEach(({ studNo, problemNo, try_cnt, score }) => {
       if(!scoreboard.has(studNo)) {
         scoreboard.set(studNo, {});
       }
-      scoreboard.get(studNo)[problemNo] = try_cnt;
+      scoreboard.get(studNo)[problemNo] = { try_cnt, score };
     }); 
     const s = Array.from(scoreboard.entries()).map(([ studNo, tries ]) => ({ studNo, tries }));
     s.forEach(({ studNo, tries }) => {
