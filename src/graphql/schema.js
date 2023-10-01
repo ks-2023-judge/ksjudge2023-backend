@@ -44,6 +44,10 @@ const schema = buildSchema(`
     memory: Int
     submit_at: String
     score: Int
+    state: String
+    type: String
+    extra: String
+    code: String
   }
 
   type submit {
