@@ -15,6 +15,11 @@ class ProblemRepository {
     const sql = MyBatisMapper.getStatement(this.namespace, 'getSubmitByStudId', { studId });
     return Query(sql);
   }
+  
+  async getSubmitById(submitId) {
+    const sql = MyBatisMapper.getStatement(this.namespace, 'getSubmitById', { submitId });
+    return Query(sql);
+  }
 
   async getProblemByNo(problemNo) {
     const sql = MyBatisMapper.getStatement(this.namespace, 'getProblemByNo', { problemNo });
@@ -28,6 +33,11 @@ class ProblemRepository {
 
   async getAllProblems() {
     const sql = MyBatisMapper.getStatement(this.namespace, 'getAllProblems');
+    return Query(sql);
+  }
+
+  async listJudgeResult(submitId) {
+    const sql = MyBatisMapper.getStatement(this.namespace, 'listJudgeResult', { submitId });
     return Query(sql);
   }
 }

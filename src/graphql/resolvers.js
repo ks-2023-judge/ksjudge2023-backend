@@ -106,6 +106,15 @@ const resolvers = {
     });
     return rank;
   },
+  
+  judges: async ({submitId}) => {
+    const result = await problemRepo.getSubmitById(submitId);
+    const judge = await problemRepo.listJudgeResult(submitId);
+
+    console.info(judge[0].map(j => { return {result: result[0][0], judge: j}; }));
+
+    return { result: result[0][0], judge: judge[0] };
+  },
 
   exit: async (_, req) => {
     const { studId, studNo } = req.session;

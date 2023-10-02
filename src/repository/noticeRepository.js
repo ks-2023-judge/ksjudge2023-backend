@@ -3,7 +3,7 @@ const Query = require('../config/database');
 
 class NoticeRepository {
   constructor() {
-    this.namespace = "NoticeRepository";
+    this.namespace = 'NoticeRepository';
   }
 
   getNotices() {

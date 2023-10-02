@@ -16,6 +16,6 @@ const Query = async (sql, callback) => {
   conn.release();
 
   return query;
-}
+};
 
 module.exports = Query;

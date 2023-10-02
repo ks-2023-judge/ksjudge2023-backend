@@ -13,18 +13,18 @@ mybatis.init();
 const port = process.argv[2] || 8080;
 
 app.use(cors({
-  origin: ["http://localhost:4000"],
+  origin: ['http://localhost:4000'],
   credentials: true,
 }));
 
 app.use(session({
-  secret: "secret",
+  secret: 'secret',
   resave: false,
   saveUninitialized: false,
   store: new session.MemoryStore(),
   cookie: {
     sameSite: false,
-    secure: process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === 'production',
     maxAge: null,
     httpOnly: true,
   },

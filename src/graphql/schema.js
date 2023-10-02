@@ -73,6 +73,24 @@ const schema = buildSchema(`
     try_cnt: Int
   }
 
+  type ProblemJudgeResult {
+    result: ProblemWithSubmit,
+    judge: [JudgeResult]
+  }
+
+  type JudgeResult {
+    id: Int
+    submit_id: Int
+    testcase_id: Int
+    output: String
+    runtime: Int
+    result: Int
+    compile_log: String
+    memory: Int
+    judge_at: String
+    judge_server_id: String
+  }
+
   type Query {
     login(studNo: String!, password: String!): LoginResponse!
     student(studNo: String!): Student!
@@ -87,6 +105,7 @@ const schema = buildSchema(`
     info: Student!
     rank: [Student]
     scoreboard: [Scoreboard]
+    judges(submitId: Int!): ProblemJudgeResult
   }
 
   type Mutation {

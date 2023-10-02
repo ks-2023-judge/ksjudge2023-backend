@@ -9,4 +9,4 @@ mybatisMapper.createMapper([
 
 module.exports.init = () => {
   // mybatis init
-}
+};

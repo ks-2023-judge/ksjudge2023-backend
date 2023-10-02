@@ -20,6 +20,12 @@
     where stud_id = #{studId}
   </select>
 
+  <select id="getSubmitById" parameterType="int">
+      SELECT no, title, s.lang, s.result, s.runtime, s.memory, submit_at, score from Problem p
+      JOIN Submit s ON s.problemNo = p.`no` 
+      WHERE s.id = #{submitId}
+  </select>
+
   <select id="getAllSubmits">
     select *
     from Submit
@@ -34,5 +40,29 @@
   <select id="getAllProblems">
     select *
     from Problem
+  </select>
+
+  <select id="listJudgeResult" parameterType="int">
+    SELECT
+      *
+    FROM
+      (
+      SELECT
+        p.no p_no,
+        t.id t_no,
+        #{submitId} submit_id
+      FROM
+        Problem p
+      JOIN Testcase t ON
+        p.no = t.problem_id
+      WHERE
+        t.isPublic = 1
+    ) stp
+    LEFT OUTER JOIN Testcase_judge tj ON
+      stp.t_no = tj.testcase_id
+      AND stp.submit_id = tj.submit_id
+    ORDER BY
+      stp.t_no asc,
+      tj.id asc
   </select>
 </mapper>

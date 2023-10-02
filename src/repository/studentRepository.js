@@ -3,7 +3,7 @@ const Query = require('../config/database');
 
 class StudentRepository {
   constructor() {
-    this.namespace = "StudentRepository";
+    this.namespace = 'StudentRepository';
   }
 
   async getStudentByStudNo(studNo) {
