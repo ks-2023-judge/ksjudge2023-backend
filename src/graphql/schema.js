@@ -79,6 +79,11 @@ const schema = buildSchema(`
   }
 
   type JudgeResult {
+    testcase_id: Int,
+    judge_detail: [JudgeResultDetail]
+  }
+
+  type JudgeResultDetail {
     id: Int
     submit_id: Int
     testcase_id: Int

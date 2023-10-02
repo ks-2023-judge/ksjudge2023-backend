@@ -108,12 +108,25 @@ const resolvers = {
   },
   
   judges: async ({submitId}) => {
+    console.log('tset')
+
     const result = await problemRepo.getSubmitById(submitId);
     const judge = await problemRepo.listJudgeResult(submitId);
 
-    console.info(judge[0].map(j => { return {result: result[0][0], judge: j}; }));
+    let reducer = judge[0].reduce((acc, current) => {
+      acc[current.t_no] = acc[current.t_no] || [];
+      acc[current.t_no].push(current);
+      return acc;
+    }, Object());
 
-    return { result: result[0][0], judge: judge[0] };
+    let kv = Object.entries(reducer).map(([ key, value ]) => {
+      if (value.length == 0 || (value.length == 1 && !value[0].id)) 
+        return { testcase_id: key, judge_detail: null };
+
+      return { testcase_id: key, judge_detail: value }
+    });
+
+    return { result: result[0][0], judge: kv };
   },
 
   exit: async (_, req) => {
