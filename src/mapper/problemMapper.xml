@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ProblemRepository"> 
   <select id="getProblemsByStudId" parameterType="int">
-    select no, title, s.lang, s.result, s.runtime, s.memory, submit_at, score, s.state, s.type, s.extra, s.code
+    select no, title, s.lang, s.result, s.runtime, s.memory, submit_at, score, s.state, s.type, s.extra, s.code, s.id
     from Problem left outer join
     (select *
     from Submit

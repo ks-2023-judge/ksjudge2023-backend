@@ -38,6 +38,7 @@ const schema = buildSchema(`
   type ProblemWithSubmit {
     no: Int!
     title: String
+    id: Int
     lang: String
     result: String
     runtime: Int
