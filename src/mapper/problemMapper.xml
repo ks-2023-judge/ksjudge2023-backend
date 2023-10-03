@@ -6,7 +6,7 @@
     from Problem left outer join
     (select *
     from Submit
-    where (stud_id, problemNo, submit_at) in
+    where type = 1 and (stud_id, problemNo, submit_at) in
     (select stud_id, problemNo, max(submit_at) latest_at
     from Submit
     where stud_id = #{studId} 
