@@ -29,4 +29,16 @@
     set state = 2
     where id = #{studId}
   </update>
+
+  <update id="updateStudentState">
+    UPDATE Student
+    SET state = #{state}
+    WHERE id = #{studId}
+  </update>
+
+  <select id="getStudentStateByStudId" parameterType="int">
+    SELECT state
+    FROM Student
+    WHERE id = #{studId}
+  </select>
 </mapper>
