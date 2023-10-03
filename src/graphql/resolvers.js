@@ -1,6 +1,7 @@
 const studentRepo = require("../repository/studentRepository");
 const noticeRepo = require("../repository/noticeRepository");
 const problemRepo = require("../repository/problemRepository");
+const submitRepo = require("../repository/submitRepository");
 const sha256 = require("js-sha256");
 const { default: GraphQLJSON } = require("graphql-type-json");
 
