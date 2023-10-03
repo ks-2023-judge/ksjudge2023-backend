@@ -1,4 +1,4 @@
-const { buildSchema } = require('graphql');
+const { buildSchema } = require("graphql");
 
 const schema = buildSchema(`
   scalar JSON
@@ -114,9 +114,9 @@ const schema = buildSchema(`
   }
 
   type Mutation {
-    updateStudent(state: String, k: Int, d: Int, a: Int): Student!
+    updateStudent(state: String): Student!
 
-    updateSubmit(
+    insertSubmit(
       stud_id: Int!
       type: String
       problemNo: Int!
@@ -126,6 +126,9 @@ const schema = buildSchema(`
       extra: String
       result: String
     ): submit!
+
+
+    updateSubmitScore(stud_id: Int!, score: Int!): submit!
 
     exit: Boolean!
   }

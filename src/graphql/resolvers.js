@@ -1,30 +1,30 @@
-const studentRepo = require('../repository/studentRepository');
-const noticeRepo = require('../repository/noticeRepository');
-const problemRepo = require('../repository/problemRepository');
-const sha256 = require('js-sha256');
-const { default: GraphQLJSON } = require('graphql-type-json');
+const studentRepo = require("../repository/studentRepository");
+const noticeRepo = require("../repository/noticeRepository");
+const problemRepo = require("../repository/problemRepository");
+const sha256 = require("js-sha256");
+const { default: GraphQLJSON } = require("graphql-type-json");
 
 const resolvers = {
   JSON: GraphQLJSON,
 
-  login: async ({ studNo, password }, req) => { 
+  login: async ({ studNo, password }, req) => {
     const result = await studentRepo.getStudentByStudNo(studNo);
     const student = result[0][0];
 
-    if(!student) {
-      return { success: false, message: 'Not Found!' };
-    } 
+    if (!student) {
+      return { success: false, message: "Not Found!" };
+    }
 
-    if(student.state != 0) return { success: false, message: '로그인 불가' };
+    if (student.state != 0) return { success: false, message: "로그인 불가" };
 
-    if(student.password !== sha256(password)) {
-      return { success: false, message: 'Invalid Credentials' };
+    if (student.password !== sha256(password)) {
+      return { success: false, message: "Invalid Credentials" };
     }
 
     req.session.studId = student.id;
     req.session.studNo = student.studNo;
 
-    return { success: true, message: '로그인 성공' };
+    return { success: true, message: "로그인 성공" };
   },
 
   student: async (args, req) => {
@@ -44,7 +44,7 @@ const resolvers = {
 
   problemsWithSubmit: async (_, req) => {
     const studId = req.session.studId;
-    if(studId == null) throw new Error('Unauthorized');
+    if (studId == null) throw new Error("Unauthorized");
     const result = await problemRepo.getProblemsByStudId(studId);
     return result[0];
   },
@@ -68,7 +68,7 @@ const resolvers = {
 
   submit: async (_, req) => {
     const studId = req.session.studId;
-    if(studId == null) throw new Error('Unauthorized');
+    if (studId == null) throw new Error("Unauthorized");
     const result = await problemRepo.getSubmitByStudId(studId);
     return result[0];
   },
@@ -80,35 +80,40 @@ const resolvers = {
 
   info: async (_, req) => {
     const { studId, studNo } = req.session;
-    if(!studId || !studNo) throw new Error('Unauthorized');
+    if (!studId || !studNo) throw new Error("Unauthorized");
     const result = await studentRepo.getStudentByStudId(studId);
-    return result[0][0]; 
+    return result[0][0];
   },
 
   rank: async (_, req) => {
     const result = await studentRepo.getStudents();
     const students = result[0];
-    const rank = students.sort((a, b) => (b.k == a.k) ? (a.score - b.score) : b.k - a.k).map((student, i) => ({...student, rank: i + 1}));
+    const rank = students
+      .sort((a, b) => (b.k == a.k ? a.score - b.score : b.k - a.k))
+      .map((student, i) => ({ ...student, rank: i + 1 }));
 
     const result2 = await studentRepo.getScoreBoard();
     const tries = result2[0];
     const scoreboard = new Map();
 
     tries.forEach(({ studNo, problemNo, try_cnt, score }) => {
-      if(!scoreboard.has(studNo)) {
+      if (!scoreboard.has(studNo)) {
         scoreboard.set(studNo, {});
       }
       scoreboard.get(studNo)[problemNo] = { try_cnt, score };
-    }); 
-    const s = Array.from(scoreboard.entries()).map(([ studNo, tries ]) => ({ studNo, tries }));
+    });
+    const s = Array.from(scoreboard.entries()).map(([studNo, tries]) => ({
+      studNo,
+      tries,
+    }));
     s.forEach(({ studNo, tries }) => {
-      rank.find(student => student.studNo == studNo).tries = tries;
+      rank.find((student) => student.studNo == studNo).tries = tries;
     });
     return rank;
   },
-  
-  judges: async ({submitId}) => {
-    console.log('tset')
+
+  judges: async ({ submitId }) => {
+    console.log("tset");
 
     const result = await problemRepo.getSubmitById(submitId);
     const judge = await problemRepo.listJudgeResult(submitId);
@@ -119,11 +124,11 @@ const resolvers = {
       return acc;
     }, Object());
 
-    let kv = Object.entries(reducer).map(([ key, value ]) => {
-      if (value.length == 0 || (value.length == 1 && !value[0].id)) 
+    let kv = Object.entries(reducer).map(([key, value]) => {
+      if (value.length == 0 || (value.length == 1 && !value[0].id))
         return { testcase_id: key, judge_detail: null };
 
-      return { testcase_id: key, judge_detail: value }
+      return { testcase_id: key, judge_detail: value };
     });
 
     return { result: result[0][0], judge: kv };
@@ -131,11 +136,36 @@ const resolvers = {
 
   exit: async (_, req) => {
     const { studId, studNo } = req.session;
-    if(!studId || !studNo) throw new Error('Unauthorized');
+    if (!studId || !studNo) throw new Error("Unauthorized");
     const result = await studentRepo.exit(studId);
     const updated = result[0].changedRows;
-    return (updated > 0) ? true : false;
-  }
+    return updated > 0 ? true : false;
+  },
+
+  updateStudentState: async (state, req) => {
+    const { studId, studNo } = req.session;
+    if (!studId || !studNo) throw new Error("Unauthorized");
+    const result = await studentRepo.updateStudentState(studId, state);
+    if (result == 0) throw new Error("Update Error");
+    const updateStudent = await studentRepo.getStudentStateByStudId(studId);
+    return updateStudent[0][0];
+  },
+  insertSubmit: async (submit, req) => {
+    const { studId, studNo } = req.session;
+    if (!studId || !studNo) throw new Error("Unauthorized");
+    const result = await submitRepo.insertSubmit(submit);
+    if (result == 0) throw new Error("Insert Error");
+    const insertSubmit = await submitRepo.getSubmitByStudId(studId);
+    return insertSubmit[0][0];
+  },
+  updateSubmitScore: async (submit, req) => {
+    const { studId, studNo } = req.session;
+    if (!studId || !studNo) throw new Error("Unauthorized");
+    const result = await submitRepo.updateSubmitScore(studId, score);
+    if (result == 0) throw new Error("Update Error");
+    const updateSubmitScore = await submitRepo.getSubmitScoreByStudId(studId);
+    return updateSubmitScore[0][0];
+  },
 };
 
 module.exports = resolvers;
