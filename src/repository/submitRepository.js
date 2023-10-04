@@ -6,12 +6,14 @@ class submitRepository {
     this.namespace = "submitRepository";
   }
 
-  async insertSubmit(submit) {
-    const sql = MyBatisMapper.getStatement(
-      this.namespace,
-      "insertSubmit",
-      submit
-    );
+  async insertSubmit(studId, type, problemNo, code, score) {
+    const sql = MyBatisMapper.getStatement(this.namespace, "insertSubmit", {
+      studId,
+      type,
+      problemNo,
+      code,
+      score,
+    });
     return Query(sql);
   }
   async getSubmitByStudId() {

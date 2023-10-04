@@ -65,6 +65,7 @@ const schema = buildSchema(`
     submit_at: String
     runtime: Int
     memory: Int
+    queued: Int
     score: Int
   }
 
@@ -122,7 +123,7 @@ const schema = buildSchema(`
     updateStudent(state: String): Student!
 
     insertSubmit(
-      stud_id: Int!
+      studId: Int!
       type: String
       problemNo: Int!
       lang: String
@@ -133,7 +134,7 @@ const schema = buildSchema(`
     ): submit!
 
 
-    updateSubmitScore(stud_id: Int!, score: Int!): submit!
+    updateSubmitScore(studId: Int!, score: Int!): submit!
 
     exit: Boolean!
   }

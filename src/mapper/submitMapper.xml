@@ -3,26 +3,25 @@
 <mapper namespace="submitRepository">
 
     <insert id="insertSubmit">
-        INSERT INTO submit (stud_id, problem_no, code, lang, state, time, memory, score)
-        VALUES (#{studId}, #{problemNo}, #{code}, #{lang}, #{state}, #{time}, #{memory}, #{score})
-        WHERE id = #{studId}
+        INSERT INTO Submit (stud_id, type, problemNo, code, lang)
+        VALUES (#{studId}, #{type}, #{problemNo}, #{code}, #{lang})
     </insert>
 
     <select id="getSubmitByStudId" parameterType="int">
         SELECT *
-        FROM submit
+        FROM Submit
         WHERE stud_id = #{studId}
     </select>
 
     <update id="updateSubmitScore">
-        UPDATE submit
+        UPDATE Submit
         SET score = #{score}
         WHERE id = #{studId}
     </update>
     
     <select id="getSubmitScoreByStudId" parameterType="int">
         SELECT score
-        FROM submit
+        FROM Submit
         WHERE stud_id = #{studId}
     </select>
 </mapper>

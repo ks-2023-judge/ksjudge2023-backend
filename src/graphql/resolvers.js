@@ -153,7 +153,8 @@ const resolvers = {
   },
   insertSubmit: async (submit, req) => {
     const { studId, studNo } = req.session;
-    if (!studId || !studNo) throw new Error("Unauthorized");
+    // if (!studId || !studNo) throw new Error("Unauthorized");
+    console.log(submit);
     const result = await submitRepo.insertSubmit(submit);
     if (result == 0) throw new Error("Insert Error");
     const insertSubmit = await submitRepo.getSubmitByStudId(studId);
