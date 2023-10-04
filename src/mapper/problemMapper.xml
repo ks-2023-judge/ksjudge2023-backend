@@ -2,16 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ProblemRepository"> 
   <select id="getProblemsByStudId" parameterType="int">
-    select no, title, s.lang, s.result, s.runtime, s.memory, submit_at, score, s.state, s.type, s.extra, s.code, s.id
+    select * 
     from Problem left outer join
     (select *
     from Submit
-    where type = 1 and (stud_id, problemNo, submit_at) in
-    (select stud_id, problemNo, max(submit_at) latest_at
+    where (stud_id, problemNo, id) in (
+    select stud_id, problemNo, max(id) latest_id
     from Submit
-    where stud_id = #{studId} 
+    where type = 1 and stud_id = #{studId}
     group by problemNo)) s
-    on no = s.problemNo
+    on no = s.problemNo;
   </select>
 
   <select id="getSubmitByStudId" parameterType="int">
