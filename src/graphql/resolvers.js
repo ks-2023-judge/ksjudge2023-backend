@@ -52,7 +52,6 @@ const resolvers = {
 
   problemsWithSubmitByStudId: async (args, req) => {
     const result = await problemRepo.getProblemsByStudId(args.studId);
-    console.log(result[0]);
     return result[0];
   },
 

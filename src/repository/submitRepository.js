@@ -1,17 +1,24 @@
 const MyBatisMapper = require("mybatis-mapper");
 const Query = require("../config/database");
 
+const { getBytes } = require("../common/str");
+
+
 class submitRepository {
   constructor() {
     this.namespace = "submitRepository";
   }
 
   async insertSubmit(submit) {
+    let params = { ...submit };
+    params['code_size'] = getBytes(params['code']);
+
     const sql = MyBatisMapper.getStatement(
       this.namespace,
       "insertSubmit",
-      submit
+      params  
     );
+
     return Query(sql);
   }
   async getSubmitByStudId(studId) {
