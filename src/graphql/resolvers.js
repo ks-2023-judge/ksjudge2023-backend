@@ -151,15 +151,22 @@ const resolvers = {
     const updateStudent = await studentRepo.getStudentStateByStudId(studId);
     return updateStudent[0][0];
   },
-  insertSubmit: async (submit, req) => {
-    const { studId, studNo } = req.session;
-    if (!studId || !studNo) throw new Error("Unauthorized");
-    console.log(submit);
-    const result = await submitRepo.insertSubmit(submit);
+
+  insertSubmit: async ({ type, problemNo, lang, code }, req) => {
+    const { studId: sessionStudId, studNo } = req.session;
+    if (!sessionStudId || !studNo) throw new Error("Unauthorized");
+    const result = await submitRepo.insertSubmit(
+      sessionStudId,
+      type,
+      problemNo,
+      lang,
+      code
+    );
     if (result == 0) throw new Error("Insert Error");
-    const insertSubmit = await submitRepo.getSubmitByStudId(studId);
+    const insertSubmit = await submitRepo.getSubmitByStudId(sessionStudId);
     return insertSubmit[0][0];
   },
+
   updateSubmitScore: async (submit, req) => {
     const { studId, studNo } = req.session;
     if (!studId || !studNo) throw new Error("Unauthorized");

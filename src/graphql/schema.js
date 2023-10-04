@@ -54,7 +54,7 @@ const schema = buildSchema(`
   type submit {
     id: Int!
     stud_id: Int!
-    type: String
+    type: Int
     problemNo: Int!
     lang: String
     code: String
@@ -123,8 +123,8 @@ const schema = buildSchema(`
     updateStudent(state: String): Student!
 
     insertSubmit(
-      studId: Int!
-      type: String
+      studId: Int
+      type: Int
       problemNo: Int!
       lang: String
       code: String
