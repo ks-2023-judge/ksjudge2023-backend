@@ -57,7 +57,14 @@
         p.no = t.problem_id
       WHERE
         t.isPublic = 1
-    ) stp
+        AND p.no = (
+        select
+          problemNo
+        from
+          Submit
+        where
+          id = #{submitId})
+        ) stp
     LEFT OUTER JOIN Testcase_judge tj ON
       stp.t_no = tj.testcase_id
       AND stp.submit_id = tj.submit_id
