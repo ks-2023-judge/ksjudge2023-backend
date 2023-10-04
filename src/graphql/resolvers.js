@@ -2,6 +2,7 @@ const studentRepo = require("../repository/studentRepository");
 const noticeRepo = require("../repository/noticeRepository");
 const problemRepo = require("../repository/problemRepository");
 const submitRepo = require("../repository/submitRepository");
+const configRepo = require("../repository/configRepository");
 const sha256 = require("js-sha256");
 const { default: GraphQLJSON } = require("graphql-type-json");
 
@@ -164,6 +165,15 @@ const resolvers = {
     const updateSubmitScore = await submitRepo.getSubmitScoreByStudId(studId);
     return updateSubmitScore[0][0];
   },
+  config: async (_) => {
+    const db_result = await configRepo.getConfigs();
+    const result = Object();
+    Array.from(db_result[0]).forEach((kv) => {
+      result[kv.key] = kv.val;
+    })
+
+    return result;
+  }
 };
 
 module.exports = resolvers;

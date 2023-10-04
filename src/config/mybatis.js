@@ -6,6 +6,7 @@ mybatisMapper.createMapper([
   path.resolve(__dirname, '../mapper/noticeMapper.xml'),
   path.resolve(__dirname, '../mapper/problemMapper.xml'),
   path.resolve(__dirname, '../mapper/submitMapper.xml'),
+  path.resolve(__dirname, '../mapper/configMapper.xml'),
 ]);
 
 module.exports.init = () => {

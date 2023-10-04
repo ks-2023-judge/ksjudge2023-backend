@@ -101,6 +101,11 @@ const schema = buildSchema(`
     judge_server_id: String
   }
 
+  type Config {
+    START_AT: String!
+    END_AT: String!
+  }
+
   type Query {
     login(studNo: String!, password: String!): LoginResponse!
     student(studNo: String!): Student!
@@ -116,6 +121,7 @@ const schema = buildSchema(`
     rank: [Student]
     scoreboard: [Scoreboard]
     judges(submitId: Int!): ProblemJudgeResult
+    config: Config!
   }
 
   type Mutation {
