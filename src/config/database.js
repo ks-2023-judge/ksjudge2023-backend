@@ -9,10 +9,10 @@ const dbConfig = {
 };
 
 const pool = mysql.createPool(dbConfig);
-const Query = async (sql, callback) => {
+const Query = async (sql, params, callback) => {
   let conn = await pool.getConnection(async (err, connection) => (err, connection));
   
-  const query = await conn.query(sql);
+  const query = await conn.query(sql, params);
   conn.release();
 
   return query;

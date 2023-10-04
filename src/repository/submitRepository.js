@@ -12,6 +12,7 @@ class submitRepository {
   async insertSubmit(submit) {
     let params = { ...submit };
     params['code_size'] = getBytes(params['code']);
+    params['code'] = params['code'].replace("'", "\\'");
 
     const sql = MyBatisMapper.getStatement(
       this.namespace,
@@ -19,7 +20,7 @@ class submitRepository {
       params  
     );
 
-    return Query(sql);
+    return Query(sql, [params['code']]);
   }
   async getSubmitByStudId(studId) {
     const sql = MyBatisMapper.getStatement(this.namespace, "getSubmitByStudId", { studId });

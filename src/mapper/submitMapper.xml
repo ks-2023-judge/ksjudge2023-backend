@@ -4,7 +4,7 @@
 
     <insert id="insertSubmit">
         INSERT INTO Submit (stud_id, problemNo, code, lang, state, code_size)
-        VALUES (#{stud_id}, #{problemNo}, #{code}, #{lang}, 0, #{code_size})
+        VALUES (#{stud_id}, #{problemNo}, ?, #{lang}, 0, #{code_size})
     </insert>
 
     <select id="getSubmitById" parameterTypes="int">
