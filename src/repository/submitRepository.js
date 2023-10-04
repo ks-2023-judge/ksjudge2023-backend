@@ -14,8 +14,12 @@ class submitRepository {
     );
     return Query(sql);
   }
-  async getSubmitByStudId() {
-    const sql = MyBatisMapper.getStatement(this.namespace, "getSubmitByStudId");
+  async getSubmitByStudId(studId) {
+    const sql = MyBatisMapper.getStatement(this.namespace, "getSubmitByStudId", { studId });
+    return Query(sql);
+  }
+  async getSubmitById(id) {
+    const sql = MyBatisMapper.getStatement(this.namespace, "getSubmitById", { id });
     return Query(sql);
   }
   async updateSubmitScore(studId, score) {

@@ -133,7 +133,7 @@ const schema = buildSchema(`
     ): submit!
 
 
-    updateSubmitScore(stud_id: Int!, score: Int!): submit!
+    updateSubmitScore(studId: Int!, score: Int!): submit!
 
     exit: Boolean!
   }

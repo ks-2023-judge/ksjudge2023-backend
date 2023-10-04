@@ -114,8 +114,6 @@ const resolvers = {
   },
 
   judges: async ({ submitId }) => {
-    console.log("tset");
-
     const result = await problemRepo.getSubmitById(submitId);
     const judge = await problemRepo.listJudgeResult(submitId);
 
@@ -156,8 +154,8 @@ const resolvers = {
     if (!studId || !studNo) throw new Error("Unauthorized");
     const result = await submitRepo.insertSubmit(submit);
     if (result == 0) throw new Error("Insert Error");
-    const insertSubmit = await submitRepo.getSubmitByStudId(studId);
-    return insertSubmit[0][0];
+    const insertSubmit = await submitRepo.getSubmitById(result[0].insertId);
+    return insertSubmit[0].map(val => { return { stud_id: val['studId'], ...val}; })[0];
   },
   updateSubmitScore: async (submit, req) => {
     const { studId, studNo } = req.session;
