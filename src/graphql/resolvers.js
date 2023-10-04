@@ -172,6 +172,13 @@ const resolvers = {
       result[kv.key] = kv.val;
     })
 
+    if (result['START_AT']) {
+      result['START_AT'] = Math.floor((new Date(result['START_AT'])).getTime() / 1000)
+    }
+    if (result['END_AT']) {
+      result['END_AT'] = Math.floor((new Date(result['END_AT'])).getTime() / 1000)
+    }
+
     return result;
   }
 };

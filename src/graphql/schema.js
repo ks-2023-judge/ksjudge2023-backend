@@ -102,8 +102,8 @@ const schema = buildSchema(`
   }
 
   type Config {
-    START_AT: String!
-    END_AT: String!
+    START_AT: Int!
+    END_AT: Int!
   }
 
   type Query {
